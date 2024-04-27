@@ -1,0 +1,36 @@
+# fly.toml app configuration file generated for fly-n8n-apurba on 2024-04-27T15:03:27+05:30
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
+
+app = 'fly-n8n-apurba'
+primary_region = 'sin'
+
+[build]
+  image = 'n8nio/n8n'
+
+[http_service]
+  internal_port = 5678
+  force_https = true
+  auto_stop_machines = false
+  auto_start_machines = true
+  min_machines_running = 0
+  processes = ['app']
+
+[[vm]]
+  memory = '1gb'
+  cpu_kind = 'shared'
+  cpus = 1
+
+[mounts]
+    source="n8n_vol"
+    destination="/home/node/.n8n"
+
+    [env]
+    N8N_HOST = "fly-n8n-apurba.fly.dev" # <your-app-name>.fly.dev
+    WEBHOOK_URL = "https://fly-n8n-apurba.fly.dev" # https://<your-app-name>.fly.dev
+    TINI_SUBREAPER = "true"
+    N8N_DIAGNOSTICS_ENABLED = "false" # optional
+    N8N_HIRING_BANNER_ENABLED = "false" # optional
+    # Find yours https://momentjs.com/timezone/
+    GENERIC_TIMEZONE = "Asia/Kolkata"
